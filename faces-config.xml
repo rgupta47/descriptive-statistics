@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+ 
+    <managed-bean>
+		<managed-bean-name>dbUserBean</managed-bean-name>
+		<managed-bean-class>edu.uic.ids517.managedbeans.DbUserBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+    	 	<property-name>fileImp</property-name>
+    	 	<value>#{fileImp}</value>
+   	 	</managed-property>
+	</managed-bean>
+    <managed-bean>
+    	<description>ManagedBean for file imports</description>
+    	<managed-bean-name>fileImport</managed-bean-name>
+    	<managed-bean-class>edu.uic.ids517.managedbeans.FileImport</managed-bean-class>
+    	<managed-bean-scope>session</managed-bean-scope>
+    	<managed-property>
+    	 	<property-name>dbUserBean</property-name>
+    	 	<value>#{dbUserBean}</value>
+   	 	</managed-property>
+    </managed-bean>
+    <managed-bean>
+		<description>Descriptive Stats</description>
+		<managed-bean-name>actionBeanMath</managed-bean-name>
+		<managed-bean-class>edu.uic.ids517.managedbeans.ActionBeanMath</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+    	 	<property-name>dbUserBean</property-name>
+    	 	<value>#{dbUserBean}</value>
+   	 	</managed-property>
+   	 
+   	 
+   	 	
+	</managed-bean>
+	<navigation-rule>
+		<display-name>index</display-name>
+		<from-view-id>/index.xhtml</from-view-id>
+		<navigation-case>
+			<from-outcome>SUCCESS</from-outcome>
+			<to-view-id>/Home.xtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	
+	<managed-bean>
+    	<description>ManagedBean for Database</description>
+    	<managed-bean-name>tableName</managed-bean-name>
+    	<managed-bean-class>edu.uic.ids517.managedbeans.TableName</managed-bean-class>
+    	<managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+    	<description>ManagedBean for Regression Variables</description>
+    	<managed-bean-name>regressionVariableBean</managed-bean-name>
+    	<managed-bean-class>edu.uic.ids517.managedbeans.RegressionVariableBean</managed-bean-class>
+    	<managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+      <managed-bean>
+    	<description>ManagedBean for Data to File</description>
+    	<managed-bean-name>extractData</managed-bean-name>
+    	<managed-bean-class>edu.uic.ids517.managedbeans.ExtractData</managed-bean-class>
+    	<managed-bean-scope>session</managed-bean-scope>
+    	<managed-property>
+    	 	<property-name>dbUserBean</property-name>
+    	 	<value>#{dbUserBean}</value>
+   	 	</managed-property>
+    </managed-bean>
+    
+    <managed-bean>
+    	<description>ManagedBean for Computation</description>
+    	<managed-bean-name>computation</managed-bean-name>
+    	<managed-bean-class>edu.uic.ids517.managedbeans.Computation</managed-bean-class>
+    	<managed-bean-scope>session</managed-bean-scope>
+    	<managed-property>
+    	 	<property-name>dbUserBean</property-name>
+    	 	<value>#{dbUserBean}</value>
+   	 	</managed-property>
+    </managed-bean>
+       
+	<managed-bean>
+    	<description>ManagedBean for Graph</description>
+    	<managed-bean-name>graph</managed-bean-name>
+    	<managed-bean-class>edu.uic.ids517.managedbeans.Graph</managed-bean-class>
+    	<managed-bean-scope>session</managed-bean-scope>
+    	<managed-property>
+    	 	<property-name>dbUserBean</property-name>
+    	 	<value>#{dbUserBean}</value>
+   	 	</managed-property>
+   	 	<managed-property>
+    	 	<property-name>actionBeanMath</property-name>
+    	 	<value>#{actionBeanMath}</value>
+   	 	</managed-property>
+    </managed-bean>
+       
+
+</faces-config>

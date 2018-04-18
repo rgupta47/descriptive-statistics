@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+
+<h:head>
+	<title>Database</title>
+</h:head>
+<h:body>
+	<h1 align="center">IDS517 s17g305</h1>
+	<center><a href="Home.xhtml">Home Page</a></center>
+	<hr></hr>
+	<h2 align="center">Database</h2>
+	<h:form>
+		<t:panelGrid border="4" columns="8" bgcolor="#d2edf2" cellpadding="8" styleClass="GridCenter">
+				
+					<t:panelGroup><h:commandButton id="Submit" type="submit" value ="TableList"
+					action="#{dbUserBean.tableName}"></h:commandButton></t:panelGroup>
+					<t:panelGroup><h:commandButton id="Submit1" type="submit" value ="ColumnList"
+					action="#{dbUserBean.columnName}"></h:commandButton></t:panelGroup>
+					<t:panelGroup><h:commandButton id="Submit2" type="submit" value ="Display Table"
+					action="#{dbUserBean.displayTable}"></h:commandButton></t:panelGroup>
+					<t:panelGroup><h:commandButton id="Submit3" type="submit" value ="Process SQL"
+					action="#{dbUserBean.createTable}"></h:commandButton></t:panelGroup>	
+					<t:panelGroup><h:commandButton id="Submit4" type="submit" value ="Drop Table"
+					action="#{dbUserBean.dropTable}"></h:commandButton></t:panelGroup>
+					<t:panelGroup><h:commandButton id="Submit6" type="submit" value ="Compute Data"
+					action="#{computation.renderComp}"></h:commandButton></t:panelGroup>
+					<h:commandButton id = "Submit8" type="Submit9" value="Reset" action = "#{computation.reset}"></h:commandButton>
+					<t:panelGroup><h:commandButton id="Submit5" type="submit" value ="Extract Data"
+					action="#{extractData.dataToFile}"></h:commandButton></t:panelGroup>
+					
+					<t:panelGroup><h:selectOneListbox
+					size="10" styleClass="selectOneListbox_mono"
+					value="#{dbUserBean.tName}"
+					rendered="#{dbUserBean.tableListRendered}">
+					<f:selectItems value="#{dbUserBean.table}" />
+					</h:selectOneListbox></t:panelGroup>
+					<t:panelGroup><h:selectManyListbox
+					size="10" styleClass="selectManyListbox"
+					value="#{dbUserBean.cName}"
+					rendered="#{dbUserBean.columnListRendered}">
+					<f:selectItems value="#{dbUserBean.column}" />
+					</h:selectManyListbox></t:panelGroup>
+					<t:panelGroup colspan="5" align="center">
+					<h:inputTextarea id="enterText" rows = "10"  columns= "1000" value="#{dbUserBean.enterText}"></h:inputTextarea>
+					</t:panelGroup>	
+					<t:panelGroup><h:selectOneListbox
+					size="10" styleClass="selectOneListbox_mono"
+					value="#{extractData.fileType}">
+					<f:selectItem itemValue="CSV" itemLabel="CSV" />
+					<f:selectItem itemValue="TAB" itemLabel="TAB" />
+					<f:selectItem itemValue="EXCEL" itemLabel="EXCEL" />
+					</h:selectOneListbox></t:panelGroup>
+					
+		</t:panelGrid>		
+        <h:outputText value ="#{dbUserBean.message}" rendered = "#{dbUserBean.renderMessage}" style="color: red"></h:outputText>
+       <br />
+        <h:outputText value ="#{dbUserBean.display}" rendered = "#{dbUserBean.renderMessage}" style="color: red"></h:outputText>
+       
+        <h:outputText value ="#{extractData.message}" rendered = "#{extractData.renderDisplay}" style="color: red"></h:outputText>
+		<br></br>
+		<h:outputText value ="#{extractData.display}" rendered = "#{extractData.renderMessage}" style="color: blue"></h:outputText>
+		<br></br>
+		
+		<h:outputText rendered = "#{dbUserBean.renderQuery}">Number of Rows:</h:outputText>
+		<h:outputText rendered = "#{dbUserBean.renderQuery}" value = "#{dbUserBean.rowCount}"></h:outputText>
+		
+		
+		<br /><br />
+		<h:outputText rendered = "#{computation.renderCompute}"> Select Column for Computation</h:outputText>
+		<br />
+		<h:panelGrid columns="2" rendered="#{computation.renderCompute}" border="1" bgcolor="#d2edf2" >
+		        
+				<h:outputText value ="Select a Source Column"></h:outputText>
+				<h:selectOneMenu id="colValue" value="#{computation.colName}" >
+							<f:selectItem itemValue="#{null}" itemLabel="-- select one --" />
+							<f:selectItems value="#{dbUserBean.column}" />
+						</h:selectOneMenu>
+			
+				<h:outputText value ="Select a Destination Column"></h:outputText>
+				<h:selectOneMenu id="computeValue" value="#{computation.compColName}" >
+							<f:selectItem itemValue="#{null}" itemLabel="-- select one --" />
+							<f:selectItems value="#{dbUserBean.column}" />
+						</h:selectOneMenu>
+				<h:commandButton id="Submit7" type="submit" value ="Compute"
+					action="#{computation.compute}"></h:commandButton>
+		</h:panelGrid>
+		<br />
+		<h:outputText rendered = "#{computation.renderDisplay}" value ="#{computation.display}" style="color: blue"></h:outputText>
+		<h:outputText rendered = "#{computation.renderDisplay}"  value ="#{computation.message}" style="color: red"></h:outputText>
+		
+			
+			<div style="background-attachment: scroll;
+			 overflow:auto; height:400px; background-repeat: repeat">
+		
+			<t:dataTable
+				value="#{dbUserBean.rset}"
+				var="row"
+				rendered="#{dbUserBean.renderSet}"
+				border="1" cellspacing="0" cellpadding="1"
+				columnClasses="columnClass1 border"
+				headerClass="headerClass"
+				footerClass="footerClass"
+				rowClasses="rowClass2"
+				styleClass="dataTableEx"
+				width="900">
+			<t:columns
+				var="col" 
+				value="#{dbUserBean.isCnameEmpty?dbUserBean.column:dbUserBean.cName}">
+				<f:facet name="header">
+				<t:outputText
+					styleClass="outputHeader"
+					value="#{col}" />
+				</f:facet>
+				<t:outputText
+					styleClass="outputText"
+					value="#{row[col]}" />
+			</t:columns>
+		</t:dataTable>
+	    </div>	
+		
+	</h:form>
+</h:body>
+</html>

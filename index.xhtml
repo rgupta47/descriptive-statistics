@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<title>Login</title>
+</h:head>
+<h:body>
+	<h1 align="center">IDS517 s17g305</h1>
+	<h3 align="center">Mayank Saxena &#160;&#160;&#160;&#160;&#160; siddhesh owalekar &#160;&#160;&#160;&#160;&#160; Ayush Misra</h3>
+	<hr></hr>
+	<h2 align="center">Login</h2>
+	<h:form>
+		
+		<br />
+		<div align="center">
+			<h:panelGrid border="1" columns="2" bgcolor="#d2edf2" cellpadding="8"
+				styleClass="GridCenter">
+				<h:outputText value="User Name"></h:outputText>
+				<h:inputText id="userName" value="#{dbUserBean.userName}"
+					required="true" requiredMessage="Please Enter User Name"></h:inputText>
+	
+				<h:outputText value="Password"></h:outputText>
+				<h:inputSecret id="password" value="#{dbUserBean.password}"
+					required="true" requiredMessage="Please Enter Password"></h:inputSecret>
+	
+				<h:outputText value="Host"></h:outputText>
+				<h:selectOneMenu id="host" value="#{dbUserBean.host}">
+					<f:selectItem itemValue="131.193.209.54" itemLabel="Server54" />
+					<f:selectItem itemValue="131.193.209.57" itemLabel="Server57" />
+					<f:selectItem itemValue="localhost" itemLabel="localhost" />
+				</h:selectOneMenu>
+				<h:outputText value="DBMS"></h:outputText>
+				<h:selectOneMenu id="dbms" value="#{dbUserBean.dbms}">
+					<f:selectItem itemValue="oracle" itemLabel="Oracle" />
+					<f:selectItem itemValue="db2" itemLabel="DB2" />
+					<f:selectItem itemValue="mysql" itemLabel="MySQL" />
+				</h:selectOneMenu>
+				<h:outputText value="Schema"></h:outputText>
+				<h:inputText id="schema" value="#{dbUserBean.schema}" required="true"
+					requiredMessage="Please Enter Schema Name"></h:inputText>
+			</h:panelGrid>
+			<br />
+			<div align="center">
+			<h:outputText value="#{dbUserBean.display}" style="color: red"></h:outputText>
+			<br />
+			<h:outputText value="#{dbUserBean.message}" style="color: red"></h:outputText>
+			</div>
+			<div align="center">
+				<h:message for="userName" style="color: red"></h:message>
+				<br />
+				<h:message for="password" style="color: red"></h:message>
+				<br />
+				<h:message for="host" style="color: red"></h:message>
+				<br />
+				<h:message for="schema" style="color: red"></h:message>
+			</div>
+			<div align="center">
+				<h:commandButton id="Submit" type="submit" value ="Login"
+					action="#{dbUserBean.login}"></h:commandButton>
+			</div>
+		</div>
+	</h:form>
+</h:body>
+</html>

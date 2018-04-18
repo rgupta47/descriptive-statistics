@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+	
+	
+	<head><title>Descriptive Stats and Regression Analysis</title></head>
+	<h:form>
+	<h1 align="center">IDS517 s17g305</h1>
+	<center><a href="Home.xhtml">Home Page</a></center>
+	<hr></hr>
+	<h2 align="center">Statistics</h2>
+		<br/>
+		<br />
+		<h:panelGrid border="1" columns="2" bgcolor="#d2edf2" cellpadding="8"
+				styleClass="GridCenter">
+		<h:outputText value="Select a Table:"></h:outputText>
+				<h:selectOneMenu id="table" value="#{dbUserBean.tName}" onchange="submit()" valueChangeListener="#{dbUserBean.getTableName}" >
+					<f:selectItem itemValue="#{null}" itemLabel="-- select one --" />
+					<f:selectItems value="#{dbUserBean.table}" />
+				</h:selectOneMenu>
+				
+
+		<h:outputText value="Select a Column:"></h:outputText>
+				<h:selectManyListbox id="colmn" value="#{actionBeanMath.colName}" >
+					<f:selectItems value="#{dbUserBean.column}" />
+				</h:selectManyListbox>
+		</h:panelGrid>
+
+		<br />
+		<br />		
+		
+		<center><h:commandButton id="descriptiveStatistics"
+				action="#{actionBeanMath.generateDescriptiveStatistics}"
+				value="Descriptive Statistics"/>
+		</center>
+		<br />
+		<br />
+		<h:panelGrid border="1" columns="2" bgcolor="#d2edf2" cellpadding="8"
+				styleClass="GridCenter">
+			<h:outputText value="Select a Response Variable:"></h:outputText>
+				<h:selectOneMenu id="response" value="#{actionBeanMath.rVariable}">
+					<f:selectItem itemValue="#{null}" itemLabel="-- select one --" />
+					<f:selectItems value="#{dbUserBean.column}" />
+				</h:selectOneMenu>
+				<h:outputText value="Select a Predictor Variable:" ></h:outputText>
+				<h:selectOneMenu id="predictor" value="#{actionBeanMath.pVariable}" >
+					<f:selectItem itemValue="#{null}" itemLabel="-- select one --" />
+					<f:selectItems value="#{dbUserBean.column}" />
+				</h:selectOneMenu>
+			
+		</h:panelGrid>
+		<br />
+		<br />
+		<h:panelGrid border="1" columns="2" bgcolor="#d2edf2" cellpadding="8"
+				styleClass="GridCenter">
+		<h:outputText value="Select a Graph Type:"></h:outputText>
+				<h:selectOneListbox id="graphSelect" value="#{graph.graphType}" >
+					<f:selectItem itemValue="Scatter Plot" itemLabel="SCATTER PLOT" />
+					<f:selectItem itemValue="Time Series" itemLabel="TIME SERIES" />
+				</h:selectOneListbox>
+		</h:panelGrid>
+		<br />
+		<br />
+		<center>
+			<h:commandButton id="regresssionAnalysis"
+			action="#{actionBeanMath.generateRegressionAnalysis}"
+			value="Regression Analysis"/>
+			<h:outputText value ="	" />
+			<h:commandButton id="graph"
+			action="#{graph.ScatterPlot}"
+			value="Generate Graph"/>
+			<h:outputText value ="	" />
+			<h:commandButton id="analysisReset"
+			action="#{graph.reset}"
+			value="Reset"/>
+		</center>
+		<br />
+		<h4><h:outputText value = "#{actionBeanMath.display}" style="color: red" rendered ="#{actionBeanMath.renderErr}"></h:outputText></h4>
+		<br />
+		<h:outputText value = "#{actionBeanMath.message}" style="color: red" rendered ="#{actionBeanMath.renderErr}">
+		</h:outputText>
+		<br />
+		<h:outputText value = "#{regressionVariableBean.message}" style="color: red" rendered ="#{actionBeanMath.renderErr}"></h:outputText>
+		<br />
+		<h:outputText value = "#{graph.message}" style="color: red" rendered = "#{graph.renderMessage}"></h:outputText>
+		<br />
+
+		
+		</h:form>
+		<h:outputText rendered="#{actionBeanMath.renderStats}"> <u><b>Descriptive Statistics</b></u>
+						</h:outputText>
+		<br />
+		<br />
+		<t:dataTable bgcolor="#d2edf2" 
+			value="#{actionBeanMath.descrStatsBeanList}"
+			var="row"
+			rendered="#{actionBeanMath.renderStats}"
+			border="1" cellspacing="0" cellpadding="1"
+			columnClasses="columnClass1 border"
+			headerClass="headerClass"
+			footerClass="footerClass"
+			rowClasses="rowClass2"
+			styleClass="dataTableEx"
+			width="900">
+			<t:columns
+			var="col"
+			value="#{actionBeanMath.columnNames}">
+			<f:facet name="header">
+			<t:outputText
+			styleClass="outputHeader"
+			value="#{col}" />
+			</f:facet>
+			<t:outputText
+			styleClass="outputText"
+			value="#{row[col]}" />
+			</t:columns>
+		</t:dataTable>
+		<h:form>
+		<br />
+		<br />
+		<br />
+			<h:outputText rendered="#{actionBeanMath.renderRegress}"> <u><b>Regression Analysis</b></u>
+						</h:outputText> &#160;
+						<br />
+						<br />
+			<h:outputText value="Regression Equation: "
+				    		rendered="#{actionBeanMath.renderRegress}">
+						</h:outputText> &#160;
+						<h:outputText value="#{actionBeanMath.regressEqn}"
+							rendered="#{actionBeanMath.renderRegress}">
+						</h:outputText> <br /><br />
+						<h:outputText value="Regression Model" rendered="#{actionBeanMath.renderRegress}"></h:outputText>
+						<h:panelGrid columns="5" rendered="#{actionBeanMath.renderRegress}" border="1" bgcolor="#d2edf2" >
+							<h:outputText value="Predictor"/>
+							<h:outputText value="Co-efficient"/>
+							<h:outputText value="Standard Error Co-efficient"/>
+							<h:outputText value="T-Statistic"/>
+							<h:outputText value="P-Value"/>
+							<h:outputText value="Constant"/>
+							<h:outputText value="#{actionBeanMath.intercept}"/>
+							<h:outputText value="#{actionBeanMath.interceptStdErr}"/>
+							<h:outputText value="#{actionBeanMath.interceptTStat }"/>
+							<h:outputText value="#{actionBeanMath.interceptPValue }"/>
+							<h:outputText value="#{actionBeanMath.pVariable}"/>
+							<h:outputText value="#{actionBeanMath.slope}"/>
+							<h:outputText value="#{actionBeanMath.slopeStdErr}"/>
+							<h:outputText value="#{actionBeanMath.slopeTStat }"/>
+							<h:outputText value="#{actionBeanMath.slopePValue }"/>
+						</h:panelGrid> <br/> <br/>
+					
+						<h:panelGrid columns="2" rendered="#{actionBeanMath.renderRegress}" border="1" bgcolor="#d2edf2">
+							<h:outputText value="Model Standard Error:"/>
+							<h:outputText value="#{actionBeanMath.modelStdErr}"/>
+							<h:outputText value="R Square(Co-efficient of Determination)"/>
+							<h:outputText value="#{actionBeanMath.rSquare}"/>
+							<h:outputText value="R Square Adjusted(Co-efficient of Determination)"/>
+							<h:outputText value="#{actionBeanMath.rSquareAdjusted}"/>
+						</h:panelGrid> <br/> <br/>
+						<h:outputText value="Analysis of Variance" rendered="#{actionBeanMath.renderRegress}"/> <br/>
+						<h:panelGrid columns="6" rendered="#{actionBeanMath.renderRegress}" border="1" bgcolor="#d2edf2">
+							<h:outputText value="Source"/>
+							<h:outputText value="Degrees of Freedom(DF)"/>
+							<h:outputText value="Sum of Squares"/>
+							<h:outputText value="Mean of Squares"/>
+							<h:outputText value="F-Statistic"/>
+							<h:outputText value="P-Value"/>
+							<h:outputText value="Regression"/>
+							<h:outputText value="#{actionBeanMath.pDF}"/>
+							<h:outputText value="#{actionBeanMath.regressSumSqr}"/>
+							<h:outputText value="#{actionBeanMath.meanSquare }"/>
+							<h:outputText value="#{actionBeanMath.fValue }"/>
+							<h:outputText value="#{actionBeanMath.pValue}"/>
+							<h:outputText value="Residual Error"/>
+							<h:outputText value="#{actionBeanMath.reDF}"/>
+							<h:outputText value="#{actionBeanMath.sumSqrErr }"/>
+							<h:outputText value="#{actionBeanMath.meanSqrErr }"/>
+							<h:outputText value=""/>
+							<h:outputText value=""/>
+							<h:outputText value="Total"/>
+							<h:outputText value="#{actionBeanMath.tDF}"/>
+						</h:panelGrid>
+						<br />
+						<br />
+						<br />
+						<h:outputText rendered="#{graph.renderChart}"> <u><b>Graphical Analysis</b></u>
+						</h:outputText> 
+						<br />
+						<br />
+						<h:graphicImage value="#{graph.scatterPlotFile}"
+									    height="450" width="600"
+										rendered="#{graph.renderChart}"
+										alt="scatterPlotChart"/>
+						
+		</h:form>
+		
+</html>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+<h:head>
+	<title>File Import</title>
+</h:head>
+<h:body>
+	<h1 align="center">IDS517 s17g305</h1>
+	<center><a href="Home.xhtml">Home Page</a></center>
+	<hr></hr>
+	<h2 align="center">File Import</h2>
+	<h:form enctype="multipart/form-data">
+		<br />
+		<br />
+		<div align="left">
+			<h:panelGrid border="1" columns="2" bgcolor="#d2edf2" cellpadding="8"
+				styleClass="GridCenter">
+				<h:outputText value="Select File to Upload"></h:outputText>
+				<t:inputFileUpload id="DataFile" value="#{fileImport.uploadedFile}"></t:inputFileUpload>
+				<h:outputText value="File Label"></h:outputText>
+				<h:inputText id="FileLabel" value="#{fileImport.fileLabel}"
+					required="true" requiredMessage="Please Enter File Label"></h:inputText>
+				<h:outputText value="Dataset Label"></h:outputText>
+				<h:inputText id="DataSetFileLabel" value="#{fileImport.dataSetFileLabel}"
+					required="true" requiredMessage="Please Enter Dataset Label"></h:inputText>						
+			</h:panelGrid>
+			<br />
+			<h:panelGrid border="1" columns="2" bgcolor="#d2edf2" cellpadding="8"
+				styleClass="GridCenter">
+				<h:outputText value="File Type:"></h:outputText>
+				<h:selectOneListbox id = "FileType" value = "#{fileImport.fileType}" required="true" requiredMessage="Please Select a File Type"> 
+   					<f:selectItem itemValue = "Metadata" itemLabel = "Metadata" /> 
+   					<f:selectItem itemValue = "data" itemLabel = "Data" /> 
+   					<f:selectItem itemValue = "other" itemLabel = "Other" />				
+				</h:selectOneListbox>
+			 </h:panelGrid>  
+			<br />
+			<h:panelGrid border="1" columns="2" bgcolor="#d2edf2" cellpadding="8"
+				styleClass="GridCenter">
+				<h:outputText value="File Format:"></h:outputText>
+				<h:selectOneListbox id="FileFormat" value = "#{fileImport.fileFormat}" required="true" requiredMessage="Please Select a File Format"> 
+   					<f:selectItem itemValue = "Excel Tab" itemLabel = "Excel Tab" /> 
+   					<f:selectItem itemValue = "Excel csv" itemLabel = "Excel csv" /> 
+   					<f:selectItem itemValue = "Excel" itemLabel = "Excel" />
+   					<f:selectItem itemValue = "XML" itemLabel = "XML" />				
+				</h:selectOneListbox>
+			 </h:panelGrid>  
+			 <br />
+			 <h:panelGrid border="1" columns="2" bgcolor="#d2edf2" cellpadding="8"
+				styleClass="GridCenter">
+				<h:outputText value="Header Row:"></h:outputText>
+				<h:selectOneListbox id ="HeaderRow" value = "#{fileImport.headerRow}" required="true" requiredMessage="Please Select If Header Exists or not"> 
+   					<f:selectItem itemValue = "Yes" itemLabel = "Yes" /> 
+   					<f:selectItem itemValue = "No" itemLabel = "No" /> 				
+				</h:selectOneListbox>
+			 </h:panelGrid> 
+			 <div align="center">
+				<h:commandButton id="Upload" type="submit" value ="Upload"
+					action="#{fileImport.processFileUpload}"></h:commandButton>
+			</div>
+			<div align="center">
+				<h:message for="FileLabel" style="color: red"></h:message>
+				<br />
+				<h:message for="DataSetFileLabel" style="color: red"></h:message>
+				<br />
+				<h:message for="FileType" style="color: red"></h:message>
+				<br />
+				<h:message for="FileFormat" style="color: red"></h:message>
+				<br />
+				<h:message for="HeaderRow" style="color: red"></h:message>
+				<br />
+				<h:outputText value = "#{fileImport.message}" style="color: red"></h:outputText>
+			</div>
+			<br />
+			<br />
+			 <h:panelGrid border="1" columns="2" bgcolor="#d2edf2" cellpadding="8"
+				styleClass="GridCenter" rendered = "#{fileImport.renderTable}">
+					<h:outputLabel value="Number of records:" />
+					<h:outputText value="#{fileImport.numberRows}"/>
+					<h:outputLabel value="fileLabel:" />
+					<h:outputText value="#{fileImport.fileLabel }"/>
+	                <h:outputLabel value="dataLabel:" />
+					<h:outputText value="#{fileImport.dataSetFileLabel }"/>
+					<h:outputLabel value="fileFormat:" />
+					<h:outputText value="#{fileImport.fileFormat }"/>
+					<h:outputLabel value="fileType:" />
+					<h:outputText value="#{fileImport.fileType }"/>
+					<h:outputLabel value="headerRow:" />
+					<h:outputText value="#{fileImport.headerRow }"/>
+					<h:outputLabel value="fileName:" />
+					<h:outputText value="#{fileImport.fileName }"/>
+					<h:outputLabel value="fileSize:" />
+					<h:outputText value="#{fileImport.fileSize }"/>
+					<h:outputLabel value="fileContentType:" />
+					<h:outputText value="#{fileImport.fileContentType }"/>
+					<h:outputLabel value="tempFilePath:" />
+					<h:outputText value="#{fileImport.filePath }"/>
+					<h:outputLabel value="tempFileName:" />
+					<h:outputText value="#{fileImport.tempFileName }"/>
+					<h:outputLabel value="facesContext:" />
+					<h:outputText value="#{fileImport.facesContext }"/>
+				</h:panelGrid>
+			
+			
+		</div>
+	</h:form>
+</h:body>
+</html>
