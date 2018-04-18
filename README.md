@@ -1,6 +1,8 @@
 # descriptive-statistics
 
-Technology used: Java, JDBC, JSP, JSF
+# Enterprise Application Development
+
+# Technology used: Java, JDBC, JSP, JSF
 
 * Application makes the database connection from mutliplte types like mysql, rdbms or oracle accordign to input.
 * It can run queries and delete or create tables in database schema.
